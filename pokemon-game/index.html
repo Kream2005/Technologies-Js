@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Mini Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="p-4 font-sans text-gray-800">
+
+    <div id="game-container" class="max-w-2xl mx-auto border rounded-lg p-4 shadow-sm">
+        
+        <div id="arena" class="flex justify-between items-center bg-gray-50 p-4 rounded-lg mb-6 border">
+            
+            <div id="bot-side" class="w-5/12 flex flex-col items-center">
+                <h2 id="bot-name" class="font-bold text-lg mb-2">Loading...</h2>
+                <div class="w-full h-4 bg-gray-300 rounded-full overflow-hidden mb-1">
+                    <div id="bot-hp-fill" class="h-full bg-green-500 w-full transition-all"></div>
+                </div>
+                <p id="bot-hp-text" class="text-xs text-gray-600">300 / 300</p>
+            </div>
+
+            <div class="text-xl font-bold text-gray-400">VS</div>
+
+            <div id="player-side" class="w-5/12 flex flex-col items-center">
+                <h2 id="player-name" class="font-bold text-lg mb-2">Loading...</h2>
+                <div class="w-full h-4 bg-gray-300 rounded-full overflow-hidden mb-1">
+                    <div id="player-hp-fill" class="h-full bg-green-500 w-full transition-all"></div>
+                </div>
+                <p id="player-hp-text" class="text-xs text-gray-600">300 / 300</p>
+            </div>
+        </div>
+
+        <div id="battle-log" class="h-40 bg-gray-100 p-3 rounded-lg overflow-y-auto mb-6 border text-sm">
+            <p>Welcome! Loading Pokémon data...</p>
+        </div>
+
+        <div id="moves-container" class="grid grid-cols-2 gap-2">
+            </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
