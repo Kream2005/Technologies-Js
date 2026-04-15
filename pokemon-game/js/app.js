@@ -1,14 +1,14 @@
-import UI from "./ui.js";
+#!/usr/bin/env node
+
 import PokeApi from "./api.js";
 import Pokemon from "./pokemon.js";
 import Battle from "./battle.js";
+import inquirer from 'inquirer';
 
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const ui = new UI();
-
+async function startPokemon(){
     try{
-        ui.log("Connecting to PokeAPI...");
+        console.log("Connecting to PokeAPI...");
 
         const playerApiData = await PokeApi.getPokemon('charizard');
         const playerMoves = await PokeApi.getRandomMoves(playerApiData.moves);
@@ -19,19 +19,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         const botMoves = await PokeApi.getRandomMoves(botApiData.moves);
         const bot = new Pokemon(botApiData, botMoves);
 
-        ui.setupArena(player, bot);
-        const battle = new Battle(player, bot, ui);
+        const battle = new Battle(player, bot);
 
-        ui.clearLog();
-        ui.log("Battle Started! Choose your move.");
+        console.clear();
+        console.log(`${player.name.toUpperCase()}  VS  ${bot.name.toUpperCase()}\n`)
         
-        ui.renderMoves(player.moves, (moveIndex) => {
-            // When a button is clicked, tell the battle engine to play a turn
-            battle.playTurn(moveIndex);
-        });
+        await playTurn(battle, player, bot);
+        
 
     } catch (error) {
         console.error("Error loading game data:", error);
-        ui.log("Error loading Pokémon data. Please refresh and try again.");
-    }   
-})
+    }
+}
+
+
+async function playTurn(battle, player, bot){
+    
+    console.log(`${player.name} : ${player.currentHp}\n${bot.name} : ${bot.currentHp}\n`);
+    
+    console.log("Your available moves : ");
+    //player.showMoves();
+    const answer = await inquirer.prompt([
+        {
+            type: 'rawlist',
+            name: 'moveIndex',
+            message: 'What will you do?',
+            choices: player.moves.map((move, index) => ({
+                name: `${move.name.toUpperCase()} (Power: ${move.power || 'Not Found'})`,
+                value: index
+            }))
+        }
+    ]);
+    battle.playTurn(answer.moveIndex);
+
+        if (bot.currentHp <= 0) {
+            console.log(`\n${bot.name} fainted! You are the winner!`);
+        } else if (player.currentHp <= 0) {
+            console.log(`\n${player.name} fainted! Better luck next time...`);
+        } else {
+            await playTurn(battle, player, bot);
+        }
+    }
+
+startPokemon();

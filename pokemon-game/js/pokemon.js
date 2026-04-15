@@ -20,4 +20,8 @@ export default class Pokemon {
     getRandomMove() {
         return this.moves[Math.floor(Math.random() * this.moves.length)];
     }
+
+    showMoves(){
+        return this.moves.forEach((m, i)=> console.log(m.name, " ", i))
+    }
 }
