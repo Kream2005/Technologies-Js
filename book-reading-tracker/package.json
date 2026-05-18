@@ -1,0 +1,14 @@
+{
+  "name": "book-reading-tracker",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./public/input.css -o ./public/styles.css --minify",
+    "build:client": "esbuild public/app.ts --outfile=public/app.js --target=es2020",
+    "build": "npm run build:css && npm run build:client",
+    "start": "npm run build && tsx app.ts"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.8",
+    "tailwindcss": "^4.1.8"
+  }
+}

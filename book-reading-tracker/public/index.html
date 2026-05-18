@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Reading Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto max-w-6xl px-6 py-12">
+      <header class="mb-10">
+        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Reading dashboard</p>
+        <h1 class="mt-4 text-4xl font-semibold text-white sm:text-5xl">Book Reading Tracker</h1>
+        <p class="mt-3 max-w-2xl text-slate-300">
+          Register books, track progress, and see your reading totals in one place.
+        </p>
+      </header>
+
+      <section class="grid gap-8 lg:grid-cols-[1.2fr,0.8fr]">
+        <form
+          id="book-form"
+          method="post"
+          action="#"
+          class="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-2xl shadow-black/30"
+        >
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold">Register a book</h2>
+            <span class="text-xs text-slate-400">All fields required</span>
+          </div>
+
+          <div class="mt-6 grid gap-5 sm:grid-cols-2">
+            <label class="space-y-2 text-sm text-slate-300">
+              Title
+              <input
+                name="title"
+                type="text"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Author
+              <input
+                name="author"
+                type="text"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Pages
+              <input
+                name="numberOfPages"
+                type="number"
+                min="1"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Pages read
+              <input
+                name="numberOfPagesRead"
+                type="number"
+                min="0"
+                required
+                value="0"
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Status
+              <select
+                name="status"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              >
+                <option value="Read">Read</option>
+                <option value="Re-read">Re-read</option>
+                <option value="DNF">DNF</option>
+                <option value="Currently reading">Currently reading</option>
+                <option value="Returned Unread">Returned Unread</option>
+                <option value="Want to read">Want to read</option>
+              </select>
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Format
+              <select
+                name="format"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              >
+                <option value="Print">Print</option>
+                <option value="PDF">PDF</option>
+                <option value="Ebook">Ebook</option>
+                <option value="AudioBook">AudioBook</option>
+              </select>
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Price
+              <input
+                name="price"
+                type="number"
+                min="0"
+                step="0.01"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-2 text-sm text-slate-300">
+              Suggested by
+              <input
+                name="suggestedBy"
+                type="text"
+                required
+                class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-white focus:border-cyan-400 focus:outline-none"
+              />
+            </label>
+          </div>
+
+          <div class="mt-6 flex items-center justify-between">
+            <p class="text-xs text-slate-400">Finished defaults to 0 and updates when pages read equals pages.</p>
+            <button
+              type="submit"
+              class="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-cyan-400/30 transition hover:-translate-y-0.5"
+            >
+              Add book
+            </button>
+          </div>
+        </form>
+
+        <aside class="space-y-6">
+          <div class="rounded-3xl border border-slate-800 bg-slate-900/60 p-6">
+            <h3 class="text-sm uppercase tracking-[0.3em] text-slate-400">Totals</h3>
+            <div class="mt-4 grid gap-3 text-sm">
+              <div class="flex items-center justify-between">
+                <span class="text-slate-300">Books finished</span>
+                <span id="total-books" class="text-lg font-semibold text-white">0</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-300">Pages read</span>
+                <span id="total-pages" class="text-lg font-semibold text-white">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-3xl border border-dashed border-slate-800 bg-slate-950/50 p-6 text-sm text-slate-400">
+            Your reading progress updates live from the Express API at <span class="text-cyan-300">/getBooks</span>.
+          </div>
+        </aside>
+      </section>
+
+      <section class="mt-10">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold">Reading list</h2>
+          <span class="text-xs uppercase tracking-[0.3em] text-slate-400">Progress</span>
+        </div>
+        <div id="book-list" class="mt-6 grid gap-4"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
