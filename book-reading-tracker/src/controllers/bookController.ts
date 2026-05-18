@@ -114,6 +114,48 @@ export async function updatePagesRead(req: Request, res: Response) {
 	}
 }
 
+export async function updateStatus(req: Request, res: Response) {
+	try {
+		const { id } = req.params;
+		const { status } = req.body;
+
+		if (!status || !Object.values(BookStatus).includes(status as BookStatus)) {
+			return res.status(400).json({ message: 'Invalid status.' });
+		}
+
+		const doc = await BookModel.findById(id);
+		if (!doc) {
+			return res.status(404).json({ message: 'Book not found.' });
+		}
+
+		const update: {
+			status: BookStatus;
+			numberOfPagesRead?: number;
+			finished: boolean;
+		} = {
+			status: status as BookStatus,
+			finished: status === BookStatus.READ
+		};
+
+		if (status === BookStatus.READ) {
+			update.numberOfPagesRead = doc.numberOfPages;
+			update.finished = true;
+		} else {
+			update.finished = doc.numberOfPagesRead >= doc.numberOfPages;
+		}
+
+		const updated = await BookModel.findByIdAndUpdate(id, update, {
+			new: true,
+			runValidators: true
+		});
+
+		res.status(200).json(updated);
+	} catch (error) {
+		const message = error instanceof Error ? error.message : 'Failed to update status.';
+		res.status(400).json({ message });
+	}
+}
+
 export async function deleteBook(req: Request, res: Response) {
 	try {
 		const { id } = req.params;

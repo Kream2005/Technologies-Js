@@ -70,7 +70,6 @@ BookSchema.pre<IBook>('save', function () {
 
     if (this.numberOfPagesRead === this.numberOfPages) {
         this.finished = true;
-        this.status = BookStatus.READ;
     }
 });
 
